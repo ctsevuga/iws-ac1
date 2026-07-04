@@ -32,6 +32,9 @@ const HomeScreen = () => {
 
   const role = userInfo?.role;
 
+  const company = userInfo?.company;
+const enableInvoicing = company?.settings?.enableInvoicing;
+
   // =========================================================
   // ROLE FLAGS
   // =========================================================
@@ -94,6 +97,9 @@ const canViewCities =
   isAdmin || isManager || isDispatcher || isTechnician;
 
 const canCreateCity = isAdmin || isManager;
+
+const canAccessInvoices = enableInvoicing && canViewInvoices;
+const canCreateInvoiceFinal = enableInvoicing && canCreateInvoice;
 
   // =========================================================
   // CUSTOMER TENANT SLUG
@@ -284,20 +290,20 @@ const canCreateCity = isAdmin || isManager;
     },
 
     {
-      title: "Invoices",
-      icon: <FaFileInvoiceDollar />,
-      onClick: () => navigate("/invoices"),
-      gradient: "linear-gradient(135deg, #667eea, #764ba2)",
-      show: canViewInvoices,
-    },
+  title: "Invoices",
+  icon: <FaFileInvoiceDollar />,
+  onClick: () => navigate("/invoices"),
+  gradient: "linear-gradient(135deg, #667eea, #764ba2)",
+  show: canAccessInvoices,
+},
 
     {
-      title: "Create Invoice",
-      icon: <FaPlusCircle />,
-      onClick: () => navigate("/invoices/create"),
-      gradient: "linear-gradient(135deg, #11998e, #38ef7d)",
-      show: canCreateInvoice,
-    },
+  title: "Create Invoice",
+  icon: <FaPlusCircle />,
+  onClick: () => navigate("/invoices/create"),
+  gradient: "linear-gradient(135deg, #11998e, #38ef7d)",
+  show: canCreateInvoiceFinal,
+},
 
     {
       title: "Items",
