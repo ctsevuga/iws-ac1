@@ -167,7 +167,7 @@ import AssignUserRoleScreen from "./screens/manager/AssignUserRoleScreen";
 import SubscriptionCreateScreen from "./screens/subscription/SubscriptionCreateScreen";
 import SubscriptionDetailsScreen from "./screens/subscription/SubscriptionDetailsScreen";
 import SubscriptionEditScreen from "./screens/subscription/SubscriptionEditScreen";
-import SubscriptionDashboardScreen from "./screens/Dashboards/SubscriptionDashboardScreen";
+// import SubscriptionDashboardScreen from "./screens/Dashboards/SubscriptionDashboardScreen";
 /**
  * Billing Module
  */
@@ -428,10 +428,10 @@ const router = createBrowserRouter(
             SUBSCRIPTION MODULE
         ===================================================== */}
         <Route element={<RoleRoute allowedRoles={["admin"]} />}>
-          <Route
+          {/* <Route
             path="/subscriptions"
             element={<SubscriptionDashboardScreen />}
-          />
+          /> */}
           <Route
             path="/subscriptions/create"
             element={<SubscriptionCreateScreen />}
