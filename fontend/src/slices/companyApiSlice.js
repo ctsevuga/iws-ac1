@@ -196,7 +196,18 @@ export const companyApiSlice = apiSlice.injectEndpoints({
   // =========================
   keepUnusedDataFor: 5,
 }),
+searchCompanies: builder.query({
+  query: ({ search = "", page = 1, limit = 20 }) => ({
+    url: COMPANIES_URL,
+    params: {
+      page,
+      limit,
+      search,
+    },
+  }),
 
+  keepUnusedDataFor: 5,
+}),
     /**
      * =========================================================
      * GET COMPANY DETAILS
@@ -242,6 +253,7 @@ export const {
   useUpdateMyCompanyMutation,
   useUpdateCompanyMutation,
   useGetCompaniesQuery,
+  useLazySearchCompaniesQuery,
   useGetCompanyDetailsQuery,
   useDeleteCompanyMutation,
 } = companyApiSlice;
