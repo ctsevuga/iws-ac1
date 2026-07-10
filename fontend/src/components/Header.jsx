@@ -92,6 +92,14 @@ const Header = () => {
   const canCreateCities = isAdmin || isManager;
 
   const canManageCompanyModule = isManager;
+  // =========================================================
+  // BILLING & SUBSCRIPTION MODULES
+  // =========================================================
+
+  const canAccessSubscription = isAdmin;
+  const canAccessBillingDashboard = isAdmin;
+  const canAccessBillingAdministration = isAdmin;
+  const canAccessCompanyBilling = isManager;
 
   // =========================================================
   // LOGOUT
@@ -187,6 +195,62 @@ const Header = () => {
                         Create Area
                       </NavDropdown.Item>
                     </LinkContainer>
+                  )}
+                </NavDropdown>
+              )}
+
+              {/* ================= BILLING ================= */}
+              {(canAccessBillingDashboard ||
+                canAccessSubscription ||
+                canAccessBillingAdministration ||
+                canAccessCompanyBilling) && (
+                <NavDropdown title="Billing" id="billingmenu">
+                  {/* ADMIN MODULES */}
+
+                  {canAccessBillingDashboard && (
+                    <LinkContainer to="/billing-dashboard">
+                      <NavDropdown.Item>
+                        <FaClipboardList className="me-2" />
+                        Billing Dashboard
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  )}
+
+                  {canAccessSubscription && (
+                    <LinkContainer to="/subscriptions">
+                      <NavDropdown.Item>
+                        <FaList className="me-2" />
+                        Subscriptions
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  )}
+
+                  {canAccessBillingAdministration && (
+                    <LinkContainer to="/billing/invoices">
+                      <NavDropdown.Item>
+                        <FaFileInvoiceDollar className="me-2" />
+                        Billing Invoices
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  )}
+
+                  {/* MANAGER MODULE */}
+
+                  {canAccessCompanyBilling && (
+                    <>
+                      {(canAccessBillingDashboard ||
+                        canAccessSubscription ||
+                        canAccessBillingAdministration) && (
+                        <NavDropdown.Divider />
+                      )}
+
+                      <LinkContainer to="/company-billing/invoices">
+                        <NavDropdown.Item>
+                          <FaFileInvoiceDollar className="me-2" />
+                          My Billing
+                        </NavDropdown.Item>
+                      </LinkContainer>
+                    </>
                   )}
                 </NavDropdown>
               )}
@@ -386,18 +450,18 @@ const Header = () => {
               )}
               {/* ================= USER ================= */}
               {userInfo && (
-  <NavDropdown title={userInfo.name} id="user-menu">
-    <LinkContainer to="/profile">
-      <NavDropdown.Item>Profile</NavDropdown.Item>
-    </LinkContainer>
+                <NavDropdown title={userInfo.name} id="user-menu">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
 
-    <NavDropdown.Divider />
+                  <NavDropdown.Divider />
 
-    <NavDropdown.Item onClick={logoutHandler}>
-      Logout
-    </NavDropdown.Item>
-  </NavDropdown>
-)}
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -161,6 +161,37 @@ import UserListScreen from "./screens/manager/UserListScreen";
 import CreateUserScreen from "./screens/manager/CreateUserScreen";
 import AssignUserRoleScreen from "./screens/manager/AssignUserRoleScreen";
 
+/**
+ * Subscription Module
+ */
+import SubscriptionCreateScreen from "./screens/subscription/SubscriptionCreateScreen";
+import SubscriptionDetailsScreen from "./screens/subscription/SubscriptionDetailsScreen";
+import SubscriptionEditScreen from "./screens/subscription/SubscriptionEditScreen";
+import SubscriptionDashboardScreen from "./screens/Dashboards/SubscriptionDashboardScreen";
+/**
+ * Billing Module
+ */
+import GenerateInvoiceScreen from "./screens/billing/GenerateInvoiceScreen";
+import BillingInvoiceDetailsScreen from "./screens/billing/BillingInvoiceDetailsScreen";
+
+import BillingInvoiceListScreen from "./screens/billing/BillingInvoiceListScreen";
+import InvoiceRegenerateScreen from "./screens/billing/InvoiceRegenerateScreen";
+
+/**
+ * Billing Dashboard Modeules
+ */
+import BillingDashboardScreen from "./screens/billingDashboard/BillingDashboardScreen";
+import CompanyBillingHistoryScreen from "./screens/billingDashboard/CompanyBillingHistoryScreen";
+import MonthlyRevenueScreen from "./screens/billingDashboard/MonthlyRevenueScreen";
+import OutstandingInvoicesScreen from "./screens/billingDashboard/OutstandingInvoicesScreen";
+
+/**
+ * Company Billing Modeules
+ */
+import CurrentPlanScreen from "./screens/companyBilling/CurrentPlanScreen";
+import CurrentUsageScreen from "./screens/companyBilling/CurrentUsageScreen";
+import MyInvoicesScreen from "./screens/companyBilling/MyInvoicesScreen";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -169,7 +200,7 @@ const router = createBrowserRouter(
       ===================================================== */}
       <Route index element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
-      <Route path="/change-password" element={<ChangePassword/>} />
+      <Route path="/change-password" element={<ChangePassword />} />
       <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
 
       {/* =====================================================
@@ -178,7 +209,10 @@ const router = createBrowserRouter(
       <Route path="/:slug" element={<CustomerLoginScreen />} />
 
       <Route path="/:slug/register" element={<CustomerRegisterScreen />} />
-      <Route path="/:slug/forget-password" element={<CustomerForgotPasswordScreen />} />
+      <Route
+        path="/:slug/forget-password"
+        element={<CustomerForgotPasswordScreen />}
+      />
 
       {/* =====================================================
     CUSTOMER PROTECTED ROUTES (MULTI-TENANT)
@@ -233,18 +267,9 @@ const router = createBrowserRouter(
           path="/customer-portal/view"
           element={<CustomerPortalSettingsViewScreen />}
         />
-        <Route
-          path="/announcements/add"
-          element={<AddAnnouncementScreen />}
-        />
-        <Route
-          path="/announcementList"
-          element={<AnnouncementsListScreen />}
-        />
-        <Route
-          path="/announcements/:id"
-          element={<ViewAnnouncementScreen />}
-        />
+        <Route path="/announcements/add" element={<AddAnnouncementScreen />} />
+        <Route path="/announcementList" element={<AnnouncementsListScreen />} />
+        <Route path="/announcements/:id" element={<ViewAnnouncementScreen />} />
       </Route>
 
       {/* Create + Edit (Manager Only) */}
@@ -266,8 +291,6 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoute />}>
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
-        
-
         {/* =====================================================
             NOTIFICATIONS MODULE
         ===================================================== */}
@@ -282,7 +305,6 @@ const router = createBrowserRouter(
             element={<NotificationDetailsScreen />}
           />
         </Route>
-
         {/* =====================================================
             SERVICE REQUESTS
         ===================================================== */}
@@ -297,7 +319,6 @@ const router = createBrowserRouter(
             element={<ServiceRequestDetailsScreen />}
           />
         </Route>
-
         <Route element={<RoleRoute allowedRoles={["manager", "dispatcher"]} />}>
           <Route
             path="/service-requests/create"
@@ -320,7 +341,6 @@ const router = createBrowserRouter(
             element={<AssignTechnician />}
           />
         </Route>
-
         {/* =====================================================
             JOBS MODULE
         ===================================================== */}
@@ -335,7 +355,6 @@ const router = createBrowserRouter(
           <Route path="/jobs/:id" element={<JobDetailsScreen />} />
           <Route path="/jobs/:id/status" element={<JobStatusUpdateScreen />} />
         </Route>
-
         <Route
           element={
             <RoleRoute allowedRoles={["admin", "manager", "dispatcher"]} />
@@ -344,14 +363,12 @@ const router = createBrowserRouter(
           <Route path="/jobs/create" element={<JobCreateForm />} />
           <Route path="/jobs/:id/edit" element={<JobEditScreen />} />
         </Route>
-
         <Route element={<RoleRoute allowedRoles={["technician"]} />}>
           <Route
             path="/jobs/accept/:serviceRequestId"
             element={<AcceptServiceRequestScreen />}
           />
         </Route>
-
         {/* =====================================================
             INVOICES MODULE
         ===================================================== */}
@@ -365,7 +382,6 @@ const router = createBrowserRouter(
             element={<InvoiceStatusScreen />}
           />
         </Route>
-
         {/* =====================================================
             ITEMS MODULE
         ===================================================== */}
@@ -375,7 +391,6 @@ const router = createBrowserRouter(
           <Route path="/items/:id" element={<ItemDetails />} />
           <Route path="/items/:id/edit" element={<EditItem />} />
         </Route>
-
         {/* =====================================================
             ADMIN MODULE
         ===================================================== */}
@@ -385,7 +400,74 @@ const router = createBrowserRouter(
           <Route path="/companies/:id" element={<CompanyDetailsScreen />} />
           <Route path="/companies/:id/edit" element={<CompanyEditScreen />} />
         </Route>
+        {/* =====================================================
+            BILLING DASHBOARD MODULE
+        ===================================================== */}
+        <Route element={<RoleRoute allowedRoles={["admin"]} />}>
+          <Route
+            path="/billing-dashboard"
+            element={<BillingDashboardScreen />}
+          />
 
+          <Route
+            path="/billing-dashboard/company/:companyId/history"
+            element={<CompanyBillingHistoryScreen />}
+          />
+
+          <Route
+            path="/billing-dashboard/monthly-revenue"
+            element={<MonthlyRevenueScreen />}
+          />
+
+          <Route
+            path="/billing-dashboard/outstanding-invoices"
+            element={<OutstandingInvoicesScreen />}
+          />
+        </Route>
+        {/* =====================================================
+            SUBSCRIPTION MODULE
+        ===================================================== */}
+        <Route element={<RoleRoute allowedRoles={["admin"]} />}>
+          <Route
+            path="/subscriptions"
+            element={<SubscriptionDashboardScreen />}
+          />
+          <Route
+            path="/subscriptions/create"
+            element={<SubscriptionCreateScreen />}
+          />
+
+          <Route
+            path="/subscriptions/:companyId"
+            element={<SubscriptionDetailsScreen />}
+          />
+
+          <Route
+            path="/subscriptions/:companyId/edit"
+            element={<SubscriptionEditScreen />}
+          />
+        </Route>
+        {/* =====================================================
+            BILLING MODULE
+        ===================================================== */}
+        <Route element={<RoleRoute allowedRoles={["admin"]} />}>
+          <Route path="/billing/invoices" element={<BillingInvoiceListScreen />} />
+
+          <Route
+  path="/billing/invoices/generate"
+  element={<GenerateInvoiceScreen />}
+/>
+
+          <Route
+            path="/billing/invoices/:invoiceId"
+            element={<BillingInvoiceDetailsScreen />}
+          />
+
+          <Route
+            path="/billing/invoices/:invoiceId/regenerate"
+            element={<InvoiceRegenerateScreen />}
+          />
+        </Route>
         {/* =====================================================
             MANAGER MODULE
         ===================================================== */}
@@ -405,32 +487,47 @@ const router = createBrowserRouter(
             element={<AssignUserRoleScreen />}
           />
         </Route>
+        {/* =====================================================
+    COMPANY BILLING MODULE
+===================================================== */}
+        <Route element={<RoleRoute allowedRoles={["manager"]} />}>
+          <Route
+            path="/company-billing/current-plan"
+            element={<CurrentPlanScreen />}
+          />
 
+          <Route
+            path="/company-billing/current-usage"
+            element={<CurrentUsageScreen />}
+          />
+
+          <Route
+            path="/company-billing/invoices"
+            element={<MyInvoicesScreen />}
+          />
+        </Route>
         {/* =====================================================
     CITY MODULE
 ===================================================== */}
-
-/* View Cities */
-<Route
-  element={
-    <RoleRoute
-      allowedRoles={["admin", "manager", "dispatcher", "technician"]}
-    />
-  }
->
-  <Route path="/cities" element={<CitiesList />} />
-  <Route path="/cities/:id" element={<CityDetails />} />
-</Route>
-
-/* Create / Update Cities */
-<Route element={<RoleRoute allowedRoles={["admin", "manager"]} />}>
-  <Route path="/cities/create" element={<CreateCityForm />} />
-  <Route path="/cities/:id/edit" element={<UpdateCity />} />
-</Route>
+        /* View Cities */
+        <Route
+          element={
+            <RoleRoute
+              allowedRoles={["admin", "manager", "dispatcher", "technician"]}
+            />
+          }
+        >
+          <Route path="/cities" element={<CitiesList />} />
+          <Route path="/cities/:id" element={<CityDetails />} />
+        </Route>
+        /* Create / Update Cities */
+        <Route element={<RoleRoute allowedRoles={["admin", "manager"]} />}>
+          <Route path="/cities/create" element={<CreateCityForm />} />
+          <Route path="/cities/:id/edit" element={<UpdateCity />} />
+        </Route>
         {/* =====================================================
     AREA MODULE
 ===================================================== */}
-
         {/* View Areas */}
         <Route
           element={
@@ -443,14 +540,12 @@ const router = createBrowserRouter(
 
           <Route path="/areas/:id" element={<AreaDetails />} />
         </Route>
-
         {/* Create / Update Areas */}
         <Route element={<RoleRoute allowedRoles={["admin", "manager"]} />}>
           <Route path="/areas/create" element={<CreateAreaForm />} />
 
           <Route path="/areas/:id/edit" element={<UpdateArea />} />
         </Route>
-
         {/* =====================================================
             CUSTOMER (STAFF MODULE)
         ===================================================== */}
@@ -462,12 +557,10 @@ const router = createBrowserRouter(
           <Route path="/customers" element={<CustomerListScreen />} />
           <Route path="/customers/:id" element={<CustomerDetailsScreen />} />
         </Route>
-
         <Route element={<RoleRoute allowedRoles={["manager", "dispatcher"]} />}>
           <Route path="/customers/create" element={<CustomerCreateScreen />} />
           <Route path="/customers/:id/edit" element={<CustomerEditScreen />} />
         </Route>
-
         {/* =====================================================
             TECHNICIAN MODULE
         ===================================================== */}
@@ -486,7 +579,6 @@ const router = createBrowserRouter(
             element={<TechnicianEditScreen />}
           />
         </Route>
-
         <Route
           element={
             <RoleRoute allowedRoles={["manager", "dispatcher", "technician"]} />

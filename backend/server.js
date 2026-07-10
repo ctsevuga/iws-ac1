@@ -20,6 +20,13 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+import billingRoutes from "./routes/billingRoutes.js";
+import billingDashboardRoutes from "./routes/billingDashboardRoutes.js";
+import companyBillingRoutes from "./routes/companyBillingRoutes.js";
+
+import startBillingCron from "./cron/billingCron.js";
+
 import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -48,6 +55,10 @@ app.use("/api/technicians", technicianRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/billing", billingRoutes);
+app.use("/api/dasboardbilling", billingDashboardRoutes);
+app.use("/api/companybilling", companyBillingRoutes);
 
 app.use("/api/upload", uploadRoutes);
 
@@ -68,7 +79,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(notFound);
 app.use(errorHandler);
-
+startBillingCron();
 app.listen(port, () =>
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
 );

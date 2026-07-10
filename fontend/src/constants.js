@@ -16,3 +16,7 @@ export const AREAS_URL = '/api/areas';
 export const CITIES_URL = '/api/cities';
 export const NOTIFICATIONS_URL = '/api/notifications';
 export const ITEMS_URL = '/api/items';
+export const SUBSCRIPTION_URL = '/api/subscriptions';
+export const BILLING_URL = '/api/billing';
+export const BILLINGDASHBOARD_URL = '/api/dasboardbilling';
+export const COMPANYBILLING_URL = '/api/companybilling';

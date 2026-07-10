@@ -101,6 +101,16 @@ const canCreateCity = isAdmin || isManager;
 const canAccessInvoices = enableInvoicing && canViewInvoices;
 const canCreateInvoiceFinal = enableInvoicing && canCreateInvoice;
 
+// =========================================================
+// BILLING & SUBSCRIPTION MODULES
+// =========================================================
+
+const canAccessSubscription = isAdmin;
+const canAccessBillingDashboard = isAdmin;
+const canAccessBillingAdministration = isAdmin;
+
+const canAccessCompanyBilling = isManager;
+
   // =========================================================
   // CUSTOMER TENANT SLUG
   // =========================================================
@@ -336,6 +346,34 @@ const canCreateInvoiceFinal = enableInvoicing && canCreateInvoice;
       gradient: "linear-gradient(135deg, #434343, #000000)",
       show: true,
     },
+    {
+  title: "Subscriptions",
+  icon: <FaIdCard />,
+  onClick: () => navigate("/subscriptions"),
+  gradient: "linear-gradient(135deg, #8E2DE2, #4A00E0)",
+  show: canAccessSubscription,
+},
+{
+  title: "Billing Dashboard",
+  icon: <FaClipboardList />,
+  onClick: () => navigate("/billing-dashboard"),
+  gradient: "linear-gradient(135deg, #00B09B, #96C93D)",
+  show: canAccessBillingDashboard,
+},
+{
+  title: "Billing",
+  icon: <FaFileInvoiceDollar />,
+  onClick: () => navigate("/billing/invoices"),
+  gradient: "linear-gradient(135deg, #667EEA, #764BA2)",
+  show: canAccessBillingAdministration,
+},
+{
+  title: "My Billing",
+  icon: <FaFileInvoiceDollar />,
+  onClick: () => navigate("/company-billing/invoices"),
+  gradient: "linear-gradient(135deg, #F7971E, #FFD200)",
+  show: canAccessCompanyBilling,
+},
     // =========================================================
     // CUSTOMER SERVICE REQUEST MODULE
     // =========================================================
