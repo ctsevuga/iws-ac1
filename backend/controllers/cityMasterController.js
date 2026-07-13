@@ -1,5 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
-import CityMaster from "../models/CityMaster.js";
+import CityMaster from "../models/cityMaster.js";
 
 /**
  * @desc    Create new city master
@@ -64,7 +64,7 @@ const createCityMaster = asyncHandler(async (req, res) => {
           country: countryName,
         },
       ],
-      { session }
+      { session },
     );
 
     const city = cities[0];
@@ -82,7 +82,7 @@ const createCityMaster = asyncHandler(async (req, res) => {
           name: "Service Area",
         },
       ],
-      { session }
+      { session },
     );
 
     const serviceArea = areas[0];
