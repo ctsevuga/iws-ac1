@@ -2,7 +2,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 
 import CompanyServiceArea from "../models/companyServiceArea.js";
 import Company from "../models/companyModel.js";
-import CityMaster from "../models/CityMaster.js";
+import CityMaster from "../models/cityMaster.js";
 import AreaMaster from "../models/AreaMaster.js";
 
 
