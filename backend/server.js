@@ -18,6 +18,9 @@ import serviceRequestRoutes from "./routes/serviceRequestRoutes.js";
 import technicianRoutes from "./routes/technicianRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
+import cityMasterRoutes from "./routes/cityMasterRoutes.js";
+import areaMasterRoutes from "./routes/areaMasterRoutes.js";
+import companyServiceAreaRoutes from "./routes/companyServiceAreaRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 import subscriptionRoutes from "./routes/subscriptionRoutes.js";
@@ -59,6 +62,10 @@ app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/billing", billingRoutes);
 app.use("/api/dasboardbilling", billingDashboardRoutes);
 app.use("/api/companybilling", companyBillingRoutes);
+
+app.use("/api/citymaster", cityMasterRoutes);
+app.use("/api/areamaster", areaMasterRoutes);
+app.use("/api/companyserviceareas", companyServiceAreaRoutes);
 
 app.use("/api/upload", uploadRoutes);
 

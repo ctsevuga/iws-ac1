@@ -6,6 +6,8 @@ import City from "../models/cityModel.js";
 import Customer from "../models/customerModel.js";
 import Technician from "../models/technicianModel.js";
 import { logActivity } from "../utils/activityLogger.js";
+import AreaMaster from "../models/areaMaster.js";
+import CompanyServiceArea from "../models/companyServiceArea.js";
 
 /**
  * @desc    Create new area
@@ -16,7 +18,9 @@ import { logActivity } from "../utils/activityLogger.js";
 const createArea = asyncHandler(async (req, res) => {
   console.log("\n================ CREATE AREA START ================\n");
 
-  let { name, city } = req.body;
+  let { name, city, areaMaster } = req.body;
+  console.log(req.body);
+
 
   // =========================
   // Company ID
@@ -31,7 +35,7 @@ const createArea = asyncHandler(async (req, res) => {
   }
 
   // =========================
-  // Validate name
+  // Validate area name
   // =========================
   if (!name?.trim()) {
     res.status(400);
@@ -41,30 +45,60 @@ const createArea = asyncHandler(async (req, res) => {
   name = name.trim();
 
   // =========================
-  // Validate city ObjectId
+  // Validate city
   // =========================
   if (!city) {
     res.status(400);
     throw new Error("City is required");
   }
 
+  // =========================
+  // Validate area master
+  // =========================
+  if (!areaMaster) {
+    res.status(400);
+    throw new Error("Area master is required");
+  }
+
   const cityId = city.toString();
 
-  console.log("👉 companyId:", companyId);
-  console.log("👉 cityId:", cityId);
-  console.log("👉 area name:", name);
+  // console.log("👉 companyId:", companyId);
+  // console.log("👉 cityId:", cityId);
+  // console.log("👉 areaMaster:", areaMaster);
+  // console.log("👉 area name:", name);
 
   // =========================
-  // Validate city belongs to company
+  // Validate company city
   // =========================
-  const cityExists = await City.findOne({
+  const companyCity = await City.findOne({
     _id: cityId,
     company: companyId,
   });
 
-  if (!cityExists) {
+  if (!companyCity) {
     res.status(400);
     throw new Error("Invalid city selected");
+  }
+
+  // =========================
+  // Validate AreaMaster
+  // =========================
+  const masterArea = await AreaMaster.findById(areaMaster);
+
+  if (!masterArea) {
+    res.status(404);
+    throw new Error("Area master not found");
+  }
+
+  // =========================
+  // Ensure AreaMaster belongs to selected CityMaster
+  // =========================
+  if (
+    masterArea.city.toString() !==
+    companyCity.cityMaster.toString()
+  ) {
+    res.status(400);
+    throw new Error("Selected area does not belong to the selected city");
   }
 
   // =========================
@@ -72,13 +106,12 @@ const createArea = asyncHandler(async (req, res) => {
   // =========================
   const existingArea = await Area.findOne({
     company: companyId,
-    city: cityId,
-    name,
+    areaMaster,
   });
 
   if (existingArea) {
     res.status(400);
-    throw new Error("Area already exists in this city");
+    throw new Error("Area already assigned to company");
   }
 
   // =========================
@@ -87,16 +120,39 @@ const createArea = asyncHandler(async (req, res) => {
   const area = await Area.create({
     company: companyId,
     city: cityId,
+    areaMaster,
     name,
   });
 
   console.log("✅ Area created:", area._id);
 
   // =========================
-  // Populate BEFORE sending response
+  // Create CompanyServiceArea Mapping
+  // =========================
+  await CompanyServiceArea.findOneAndUpdate(
+    {
+      company: companyId,
+      area: areaMaster,
+    },
+    {
+      company: companyId,
+      city: companyCity.cityMaster,
+      area: areaMaster,
+      isActive: true,
+    },
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+    }
+  );
+
+  // =========================
+  // Populate response
   // =========================
   const populatedArea = await Area.findById(area._id)
-    .populate("city", "name state country");
+    .populate("city", "name state country")
+    .populate("areaMaster", "name");
 
   console.log("📦 Populated Area:", populatedArea);
 
@@ -178,6 +234,7 @@ const assignAreaToCity = asyncHandler(async (req, res) => {
 });
 
 const getCityAreas = asyncHandler(async (req, res) => {
+  
   const { cityId } = req.params;
 
   const companyId =
@@ -189,7 +246,7 @@ const getCityAreas = asyncHandler(async (req, res) => {
     _id: cityId,
     company: companyId,
   });
-
+// console.log(city);
   if (!city) {
     return res.status(404).json({
       success: false,

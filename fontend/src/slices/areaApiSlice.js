@@ -8,17 +8,21 @@ export const areaApiSlice = apiSlice.injectEndpoints({
     /*                              AREA CRUD                                 */
     /* ---------------------------------------------------------------------- */
 
-    createArea: builder.mutation({
-      query: (data) => ({
-        url: `${AREAS_URL}`,
-        method: "POST",
-        body: {
-          name: data.name,
-          city: data.city, // only city now
-        },
-      }),
-      invalidatesTags: ["Area"],
-    }),
+ createArea: builder.mutation({
+  query: (data) => {
+    console.log("RTK data:", data);
+
+    return {
+      url: AREAS_URL,
+      method: "POST",
+      body: {
+        name: data.name,
+        city: data.city,
+        areaMaster: data.areaMaster,
+      },
+    };
+  },
+}),
 
 /* ---------------------------------------------------------------------- */
 

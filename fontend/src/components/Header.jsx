@@ -101,6 +101,9 @@ const Header = () => {
   const canAccessBillingAdministration = isAdmin;
   const canAccessCompanyBilling = isManager;
 
+  const canAccessCityMaster = isAdmin;
+  const canAccessAreaMaster = isAdmin;
+
   // =========================================================
   // LOGOUT
   // =========================================================
@@ -154,6 +157,28 @@ const Header = () => {
                       Companies
                     </NavDropdown.Item>
                   </LinkContainer>
+
+                  <NavDropdown.Divider />
+                  {/* ================= MASTER DATA ================= */}
+                  <NavDropdown.Divider />
+
+                  {canAccessCityMaster && (
+                    <LinkContainer to="/city-master">
+                      <NavDropdown.Item>
+                        <FaCity className="me-2" />
+                        City Master
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  )}
+
+                  {canAccessAreaMaster && (
+                    <LinkContainer to="/area-master">
+                      <NavDropdown.Item>
+                        <FaMapMarkedAlt className="me-2" />
+                        Area Master
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  )}
 
                   <NavDropdown.Divider />
 

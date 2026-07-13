@@ -54,7 +54,7 @@ router
 router.get(
   "/options",
   protect,
-  viewRoles,
+  manager,
   getAreaOptions
 );
 
@@ -70,7 +70,7 @@ router.get(
 router.get(
   "/city/:cityId",
   protect,
-  viewRoles,
+  manager,
   getCityAreas
 );
 

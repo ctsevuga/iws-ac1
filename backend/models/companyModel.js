@@ -157,6 +157,16 @@ const companySchema = new Schema(
   { timestamps: true }
 );
 
+companySchema.pre("validate", function(next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  next();
+});
 // =========================
 // Indexes
 // =========================

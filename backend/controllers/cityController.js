@@ -3,6 +3,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import City from "../models/cityModel.js";
 import Area from "../models/areaModel.js";
+import CityMaster from "../models/cityMaster.js";
 import { logActivity } from "../utils/activityLogger.js";
 
 /* -------------------------------------------------------------------------- */
@@ -10,58 +11,109 @@ import { logActivity } from "../utils/activityLogger.js";
 /* -------------------------------------------------------------------------- */
 
 const createCity = asyncHandler(async (req, res) => {
-  let { name, state, country } = req.body;
+  let {
+    cityMaster,
+    name,
+    state,
+    country,
+  } = req.body;
+
 
   const companyId =
     req.user?.company?._id?.toString?.() ||
     req.user?.company?.toString?.() ||
     req.user?.company;
 
+
   if (!companyId) {
     res.status(403);
     throw new Error("Company not found");
   }
+
+
+  if (!cityMaster) {
+    res.status(400);
+    throw new Error("City master reference is required");
+  }
+
 
   if (!name || !name.trim()) {
     res.status(400);
     throw new Error("City name is required");
   }
 
+
   name = name.trim();
   state = state?.trim();
   country = country?.trim() || "India";
 
-  // Duplicate check (company + name + state)
+
+  // Verify master city exists
+  const masterCity = await CityMaster.findById(cityMaster);
+
+
+  if (!masterCity) {
+    res.status(404);
+    throw new Error("Master city not found");
+  }
+
+
+
+  // Duplicate check
+  // company + cityMaster is the reliable unique check
   const existingCity = await City.findOne({
     company: companyId,
-    name,
-    state,
+    cityMaster,
   });
+
 
   if (existingCity) {
     res.status(400);
-    throw new Error("City already exists");
+    throw new Error("City already assigned to company");
   }
 
+
+
   const city = await City.create({
+
     company: companyId,
+
+    cityMaster,
+
     name,
+
     state,
+
     country,
+
   });
+
+
 
   await logActivity({
+
     company: companyId,
+
     entityType: "City",
+
     entityId: city._id,
+
     action: "CREATE_CITY",
-    message: `City ${city.name} created`,
+
+    message: `City ${city.name} assigned to company`,
+
   });
 
+
+
   res.status(201).json({
+
     success: true,
+
     data: city,
+
   });
+
 });
 
 /* -------------------------------------------------------------------------- */

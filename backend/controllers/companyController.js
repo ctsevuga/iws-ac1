@@ -4,6 +4,10 @@ import Company from "../models/companyModel.js";
 import User from "../models/userModel.js";
 import Area from "../models/areaModel.js";
 import City from "../models/cityModel.js";
+import CompanyServiceArea from "../models/companyServiceArea.js";
+import CityMaster from "../models/cityMaster.js";
+import AreaMaster from "../models/areaMaster.js";
+
 import { logActivity } from "../utils/activityLogger.js";
 
 /**
@@ -26,7 +30,7 @@ const createCompany = asyncHandler(async (req, res) => {
     settings,
     plan,
     subscriptionStatus,
-    domain, // optional (important)
+    domain,
   } = req.body;
 
   const session = await mongoose.startSession();
@@ -59,16 +63,15 @@ const createCompany = asyncHandler(async (req, res) => {
     session.startTransaction();
 
     // =========================
-    // 4. Build Company Payload (IMPORTANT FIX HERE)
+    // 4. Build Company Payload
     // =========================
     const companyData = {
       name,
       legalName,
-      email,
+      email: email?.toLowerCase(),
       phone,
       website,
       address,
-
       slug,
 
       brand: {
@@ -82,7 +85,6 @@ const createCompany = asyncHandler(async (req, res) => {
       subscriptionStatus,
     };
 
-    // ✅ ONLY add domain if provided (NO null insertion)
     if (domain && domain.trim()) {
       companyData.domain = domain.trim().toLowerCase();
     }
@@ -93,63 +95,60 @@ const createCompany = asyncHandler(async (req, res) => {
     const companies = await Company.create([companyData], { session });
     const company = companies[0];
 
-    console.log("Company created:", company._id);
+    console.log("✅ Company created:", company._id);
 
-    // =========================
-    // 6. City
-    // =========================
-    let cityDoc = null;
+    console.log(address);
+console.log("address.city =", address.city);
 
-    if (address?.city) {
-      cityDoc = await City.findOne({
-        company: company._id,
-        name: address.city.trim(),
-      }).session(session);
+// =========================
+// 6. Create Company City
+// =========================
+let cityDoc = null;
 
-      if (!cityDoc) {
-        const cities = await City.create(
-          [
-            {
-              company: company._id,
-              name: address.city.trim(),
-            },
-          ],
-          { session }
-        );
+if (address?.city) {
+  // Find CityMaster by ObjectId
+  const cityMaster = await CityMaster.findById(address.city).session(session);
 
-        cityDoc = cities[0];
-      }
-    }
+  if (!cityMaster) {
+    throw new Error("Invalid city selected.");
+  }
 
-    // =========================
-    // 7. Area
-    // =========================
-    const areaName = address?.city
-      ? `${address.city} Service Area`
-      : "Primary Service Area";
+  // Check whether this company already has the city
+  cityDoc = await City.findOne({
+    company: company._id,
+    cityMaster: cityMaster._id,
+  }).session(session);
 
-    const areas = await Area.create(
+  // Create company city if it doesn't exist
+  if (!cityDoc) {
+    const cities = await City.create(
       [
         {
           company: company._id,
-          city: cityDoc?._id,
-          name: areaName,
+          cityMaster: cityMaster._id,
+          name: cityMaster.name,
         },
       ],
       { session }
     );
 
-    const defaultArea = areas[0];
+    cityDoc = cities[0];
+
+    console.log("✅ Company city created:", cityDoc._id);
+  } else {
+    console.log("ℹ️ Company city already exists:", cityDoc._id);
+  }
+}
 
     // =========================
-    // 8. Manager User
+    // 7. Create Manager User
     // =========================
     const users = await User.create(
       [
         {
           company: company._id,
           name: `${name} Manager`,
-          email,
+          email: email?.toLowerCase(),
           phone,
           password: "123456",
           role: "manager",
@@ -162,8 +161,10 @@ const createCompany = asyncHandler(async (req, res) => {
 
     const managerUser = users[0];
 
+    console.log("✅ Manager user created:", managerUser._id);
+
     // =========================
-    // 9. Activity Logs
+    // 8. Activity Logs
     // =========================
     await logActivity(
       {
@@ -195,18 +196,6 @@ const createCompany = asyncHandler(async (req, res) => {
       {
         company: company._id,
         performedBy: null,
-        entityType: "Area",
-        entityId: defaultArea._id,
-        action: "CREATE_AREA",
-        message: `Default service area ${defaultArea.name} created`,
-      },
-      session
-    );
-
-    await logActivity(
-      {
-        company: company._id,
-        performedBy: null,
         entityType: "User",
         entityId: managerUser._id,
         action: "CREATE_USER",
@@ -216,20 +205,19 @@ const createCompany = asyncHandler(async (req, res) => {
     );
 
     // =========================
-    // 10. Commit
+    // 9. Commit Transaction
     // =========================
     await session.commitTransaction();
 
-    await defaultArea.populate("city");
+    console.log("=== CREATE COMPANY SUCCESS ===");
 
     // =========================
-    // 11. Response
+    // 10. Response
     // =========================
     res.status(201).json({
       success: true,
       company,
       city: cityDoc,
-      defaultArea,
       managerUser: {
         _id: managerUser._id,
         name: managerUser.name,
@@ -247,7 +235,9 @@ const createCompany = asyncHandler(async (req, res) => {
     console.error("CREATE COMPANY ERROR:", err.message);
 
     if (err.code === 11000) {
-      throw new Error(`Duplicate key error: ${JSON.stringify(err.keyValue)}`);
+      throw new Error(
+        `Duplicate key error: ${JSON.stringify(err.keyValue)}`
+      );
     }
 
     throw err;
@@ -255,6 +245,7 @@ const createCompany = asyncHandler(async (req, res) => {
     await session.endSession();
   }
 });
+
 
 
 

@@ -11,6 +11,14 @@ const citySchema = new Schema(
       index: true,
     },
 
+    // Reference to the master city
+    cityMaster: {
+      type: Schema.Types.ObjectId,
+      ref: "CityMaster",
+      required: true,
+      index: true,
+    },
+
     name: {
       type: String,
       required: true,
@@ -28,12 +36,18 @@ const citySchema = new Schema(
       default: "India",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
+// Prevent duplicate city assignment
 citySchema.index(
-  { company: 1, name: 1, state: 1 },
-  { unique: true }
+  {
+    company: 1,
+    cityMaster: 1,
+  },
+  {
+    unique: true,
+  },
 );
 
 export default mongoose.model("City", citySchema);

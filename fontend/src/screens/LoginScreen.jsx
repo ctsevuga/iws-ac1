@@ -18,6 +18,8 @@ import {
   useSelector,
 } from "react-redux";
 
+import ServiceFinder from "../screens/companyServiceArea/ServiceFinder";
+
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
@@ -104,6 +106,7 @@ const LoginScreen = () => {
   };
 
   return (
+    <>
     <FormContainer>
       <h1 className="mb-4 text-center">
         Sign In
@@ -166,6 +169,8 @@ const LoginScreen = () => {
   </Col>
 </Row>
     </FormContainer>
+    <ServiceFinder />
+    </>
   );
 };
 

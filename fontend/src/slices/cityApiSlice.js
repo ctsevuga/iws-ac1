@@ -86,13 +86,13 @@ export const cityApiSlice = apiSlice.injectEndpoints({
     /*                         CITY → AREAS RELATIONSHIP                      */
     /* ---------------------------------------------------------------------- */
 
-    getCityAreas: builder.query({
-      query: (cityId) => ({
-        url: `${CITIES_URL}/${cityId}/areas`,
-      }),
-      providesTags: ["City", "Area"],
-      keepUnusedDataFor: 5,
-    }),
+    // getCityAreas: builder.query({
+    //   query: (cityId) => ({
+    //     url: `${CITIES_URL}/${cityId}/areas`,
+    //   }),
+    //   providesTags: ["City", "Area"],
+    //   keepUnusedDataFor: 5,
+    // }),
 
 /* ---------------------------------------------------------------------- */
 
@@ -110,5 +110,5 @@ export const {
   useUpdateCityMutation,
   useDeleteCityMutation,
   useGetCityOptionsQuery,
-  useGetCityAreasQuery,
+  // useGetCityAreasQuery,
 } = cityApiSlice;

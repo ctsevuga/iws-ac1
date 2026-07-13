@@ -12,7 +12,7 @@ const activitySchema = new Schema(
 
     entityType: {
       type: String,
-      enum: ["User","Job", "Customer", "Invoice", "ServiceRequest"],
+      enum: ["User","Job", "Customer", "Technician", "Invoice", "ServiceRequest"],
       required: true
     },
 

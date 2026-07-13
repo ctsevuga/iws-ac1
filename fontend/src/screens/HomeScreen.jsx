@@ -111,6 +111,9 @@ const canAccessBillingAdministration = isAdmin;
 
 const canAccessCompanyBilling = isManager;
 
+const canAccessCityMaster = isAdmin;
+const canAccessAreaMaster = isAdmin;
+
   // =========================================================
   // CUSTOMER TENANT SLUG
   // =========================================================
@@ -198,6 +201,21 @@ const canAccessCompanyBilling = isManager;
       gradient: "linear-gradient(135deg, #11998e, #38ef7d)",
       show: canManageUsers,
     },
+    {
+  title: "City Master",
+  icon: <FaGlobe />,
+  onClick: () => navigate("/city-master"),
+  gradient: "linear-gradient(135deg, #4facfe, #00f2fe)",
+  show: canAccessCityMaster,
+},
+
+{
+  title: "Area Master",
+  icon: <FaList />,
+  onClick: () => navigate("/area-master"),
+  gradient: "linear-gradient(135deg, #43cea2, #185a9d)",
+  show: canAccessAreaMaster,
+},
     {
   title: "Cities",
   icon: <FaGlobe />,

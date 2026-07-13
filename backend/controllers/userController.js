@@ -223,10 +223,18 @@ const changePassword = asyncHandler(async (req, res) => {
 
   await user.save();
 
-  res.status(200).json({
-    success: true,
-    message: "Password changed successfully.",
-  });
+res.status(200).json({
+  success: true,
+  message: "Password changed successfully.",
+  user: {
+    _id: user._id,
+    name: user.name,
+    phone: user.phone,
+    role: user.role,
+    company: user.company,
+    mustChangePassword: user.mustChangePassword,
+  },
+});
 });
 
 const forgotPassword = asyncHandler(async (req, res) => {
