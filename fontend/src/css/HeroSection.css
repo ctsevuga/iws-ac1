@@ -1,0 +1,255 @@
+.hero-section {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    background-image:
+        url("https://res.cloudinary.com/dsoi84tie/image/upload/v1782802142/Uchi_03_dkfnmd.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+}
+
+/* Dark overlay */
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,.82),
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.35)
+    );
+
+}
+
+/* Content */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    padding-left: 280px; /* Space for side navigation */
+
+    padding-right: 60px;
+
+}
+
+/* Left */
+
+.hero-left{
+
+    color:white;
+
+    animation:fadeLeft .8s ease;
+
+}
+
+.hero-badge{
+
+    font-size:15px;
+
+    padding:10px 18px;
+
+    margin-bottom:25px;
+
+    border-radius:30px;
+
+}
+
+.hero-title{
+
+    font-size:60px;
+
+    font-weight:800;
+
+    line-height:1.15;
+
+    margin-bottom:30px;
+
+}
+
+.hero-description{
+
+    font-size:20px;
+
+    line-height:1.9;
+
+    opacity:.95;
+
+    max-width:720px;
+
+}
+
+/* Buttons */
+
+.hero-buttons{
+
+    margin-top:35px;
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.hero-buttons .btn{
+
+    padding:15px 34px;
+
+    border-radius:50px;
+
+    font-size:18px;
+
+}
+
+/* Right */
+
+.hero-right{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.hero-card{
+
+    width:100%;
+
+    max-width:420px;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(12px);
+
+    border-radius:20px;
+
+    color:white;
+
+    padding:35px;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.hero-card h3{
+
+    margin-bottom:25px;
+
+    font-weight:700;
+
+}
+
+.hero-card ul{
+
+    list-style:none;
+
+    padding:0;
+
+    margin:0;
+
+}
+
+.hero-card li{
+
+    padding:10px 0;
+
+    font-size:18px;
+
+    border-bottom:1px solid rgba(255,255,255,.15);
+
+}
+
+/* Animation */
+
+@keyframes fadeLeft{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+
+.hero-content{
+
+    padding:120px 30px 60px;
+
+}
+
+.hero-title{
+
+    font-size:42px;
+
+}
+
+.hero-description{
+
+    font-size:18px;
+
+}
+
+.hero-right{
+
+    margin-top:40px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.hero-title{
+
+    font-size:34px;
+
+}
+
+.hero-buttons{
+
+    flex-direction:column;
+
+}
+
+.hero-buttons .btn{
+
+    width:100%;
+
+}
+
+}

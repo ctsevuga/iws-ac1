@@ -1,0 +1,134 @@
+.workflow-section{
+    padding:120px 0;
+    background:#f8fbff;
+}
+
+.workflow-header{
+    text-align:center;
+    max-width:850px;
+    margin:auto;
+}
+
+.workflow-tag{
+    display:inline-block;
+    padding:8px 18px;
+    background:#e8f1ff;
+    color:#0d6efd;
+    border-radius:30px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.workflow-header h2{
+    font-size:46px;
+    font-weight:700;
+    color:#1d3557;
+}
+
+.workflow-header p{
+    font-size:18px;
+    color:#666;
+    margin-top:20px;
+    line-height:1.8;
+}
+
+.journey-title{
+    margin-top:70px;
+    margin-bottom:25px;
+    text-align:center;
+    font-weight:700;
+    color:#1d3557;
+}
+
+.journey-card{
+    border:none;
+    border-radius:18px;
+    height:100%;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+    transition:.3s;
+    position:relative;
+}
+
+.journey-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 45px rgba(13,110,253,.15);
+}
+
+.journey-card .card-body{
+    padding:30px;
+    text-align:center;
+}
+
+.step-number{
+    position:absolute;
+    top:15px;
+    right:18px;
+    font-size:32px;
+    color:#e9eef6;
+    font-weight:bold;
+}
+
+.step-icon{
+    font-size:46px;
+    margin-bottom:20px;
+}
+
+.journey-card h5{
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.journey-card p{
+    color:#666;
+    line-height:1.7;
+}
+
+.company-workflow{
+    margin-top:90px;
+}
+
+.workflow-line{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:40px;
+}
+
+.workflow-item{
+    display:flex;
+    align-items:center;
+    background:white;
+    padding:25px 30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.workflow-icon{
+    font-size:36px;
+    margin-right:15px;
+}
+
+.workflow-item h6{
+    margin:0;
+    font-weight:600;
+}
+
+.workflow-arrow{
+    margin-left:20px;
+    font-size:26px;
+    color:#0d6efd;
+}
+
+@media(max-width:992px){
+
+.workflow-line{
+    flex-direction:column;
+}
+
+.workflow-arrow{
+    display:none;
+}
+
+}

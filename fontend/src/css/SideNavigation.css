@@ -1,0 +1,138 @@
+.landing-sidebar {
+
+    position: fixed;
+
+    left:20px;
+
+    top:90px;
+
+    width:230px;
+
+    height:calc(100vh - 110px);
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
+
+    display:flex;
+
+    flex-direction:column;
+
+    z-index:999;
+
+    padding:25px;
+
+}
+
+.sidebar-logo{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#0d6efd;
+
+}
+
+.sidebar-logo span{
+
+    color:#20c997;
+
+}
+
+.sidebar-menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-top:30px;
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding-right:5px;
+
+}
+
+.sidebar-item{
+
+    border:none;
+
+    background:none;
+
+    text-align:left;
+
+    padding:12px 15px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+    font-size:16px;
+
+    font-weight:500;
+
+}
+
+.sidebar-item:hover{
+
+    background:#0d6efd;
+
+    color:white;
+
+    transform:translateX(6px);
+
+}
+
+.staff-login-btn{
+
+    flex-shrink:0;
+
+    margin-top:20px;
+
+    background:#0d6efd;
+
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.staff-login-btn:hover{
+
+    background:#084298;
+
+}
+
+.sidebar-menu::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+
+.sidebar-menu::-webkit-scrollbar-thumb{
+
+    background:#0d6efd;
+
+    border-radius:10px;
+
+}

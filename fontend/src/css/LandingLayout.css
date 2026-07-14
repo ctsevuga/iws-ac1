@@ -1,0 +1,20 @@
+.landing-content {
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+}
+
+
+@media(max-width:992px){
+
+    .landing-content{
+
+        margin-left:0;
+
+        width:100%;
+
+    }
+
+}
