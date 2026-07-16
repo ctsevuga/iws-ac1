@@ -66,7 +66,6 @@ const CustomerLoginScreen = () => {
     isLoading: portalLoading,
     error,
   } = useGetPublicPortalSettingsQuery(slug);
-  
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -115,32 +114,32 @@ const CustomerLoginScreen = () => {
   const settings = portal?.settings || {};
   const company = portal?.company || {};
   const iconMap = {
-  FaHeadset,
-  FaPhone,
-  FaLock,
-  FaSignInAlt,
-  FaUserPlus,
-  FaClock,
-  FaMapMarkerAlt,
-  FaEnvelope,
-  FaGlobe,
-  FaTools,
-  FaSnowflake,
-  FaBolt,
-  FaShieldAlt,
-  FaFan,
-  FaTemperatureLow,
-  FaWrench,
-  FaLeaf,
-  FaBuilding,
-  FaHome,
-  FaIndustry,
-  FaClipboardCheck,
-  FaCheckCircle,
-};
+    FaHeadset,
+    FaPhone,
+    FaLock,
+    FaSignInAlt,
+    FaUserPlus,
+    FaClock,
+    FaMapMarkerAlt,
+    FaEnvelope,
+    FaGlobe,
+    FaTools,
+    FaSnowflake,
+    FaBolt,
+    FaShieldAlt,
+    FaFan,
+    FaTemperatureLow,
+    FaWrench,
+    FaLeaf,
+    FaBuilding,
+    FaHome,
+    FaIndustry,
+    FaClipboardCheck,
+    FaCheckCircle,
+  };
 
-const cta = settings.callToAction || {};
-const CTAIcon = iconMap[cta.icon] || FaHeadset;
+  const cta = settings.callToAction || {};
+  const CTAIcon = iconMap[cta.icon] || FaHeadset;
 
   const primaryColor = settings.primaryColor || "#0d6efd";
   const secondaryColor = settings.secondaryColor || "#6ea8fe";
@@ -152,45 +151,10 @@ const CTAIcon = iconMap[cta.icon] || FaHeadset;
 
   const specialServices =
     settings.specialServices?.filter((s) => s.active) || [];
-const companyName = slug
-  ?.split("-")
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-  .join(" ");
-
-const faqs = [
-  {
-    question: `${companyName} என்னென்ன சேவைகளை வழங்குகிறது?`,
-    answer: `${companyName} நிறுவனம் ஏசி பழுதுபார்ப்பு, லேப்டாப் சேவை, பிளம்பிங், பூச்சி கட்டுப்பாடு, சோஃபா சுத்தம் செய்தல் உள்ளிட்ட பல்வேறு வீட்டு சேவைகளை வழங்குகிறது.`,
-  },
-  {
-    question: `${companyName} நிறுவனத்தை வீட்டு சேவைகளுக்காக எவ்வாறு தொடர்புகொள்வது?`,
-    answer: `${companyName} நிறுவனத்தை எங்கள் இணையதளம் அல்லது வாடிக்கையாளர் சேவை எண்ணின் மூலம் தொடர்புகொள்ளலாம். எங்கள் தொடர்பு பக்கத்தைப் பார்வையிடுங்கள் அல்லது நேரடியாக அழைத்து சேவையை முன்பதிவு செய்யலாம்.`,
-  },
-  {
-    question: `${companyName} நிறுவனத்தின் தொழில்நுட்ப நிபுணர்கள் தங்கள் துறையில் அனுபவமுள்ளவர்களா?`,
-    answer: `ஆம். ${companyName} நிறுவனத்தின் அனைத்து தொழில்நுட்ப நிபுணர்களும் தங்கள் துறையில் பயிற்சி பெற்ற மற்றும் அனுபவமிக்க வல்லுநர்கள் ஆவர்.`,
-  },
-  {
-    question: `${companyName} நிறுவனம் போட்டித்திறன் கொண்ட விலையில் சேவைகளை வழங்குகிறதா?`,
-    answer: `ஆம். உயர்தரமான வீட்டு சேவைகளை நியாயமான மற்றும் வெளிப்படையான கட்டணத்தில் வழங்கி, உங்கள் பணத்திற்கு சிறந்த மதிப்பை உறுதி செய்கிறோம்.`,
-  },
-  {
-    question: `${companyName} நிறுவனத்தில் சேவையை எவ்வாறு முன்பதிவு செய்வது?`,
-    answer: `எங்கள் இணையதளத்தின் மூலம் அல்லது வாடிக்கையாளர் சேவை எண்ணை அழைப்பதன் மூலம் எளிதாக சேவையை முன்பதிவு செய்யலாம். சில நிமிடங்களில் முன்பதிவு செய்து முடிக்கலாம்.`,
-  },
-  {
-    question: `${companyName} நிறுவனம் தனது சேவைகளுக்கு உத்தரவாதம் வழங்குகிறதா?`,
-    answer: `ஆம். வாடிக்கையாளர்களின் முழுமையான திருப்தியை உறுதி செய்ய எங்கள் சேவைகளுக்கு உத்தரவாதம் வழங்குகிறோம். எங்கள் சேவையில் நீங்கள் திருப்தியடையாவிட்டால், அதை சரிசெய்ய தேவையான நடவடிக்கைகளை எடுப்போம்.`,
-  },
-  {
-    question: `${companyName} நிறுவனத்தின் சேவைகள் வார இறுதி நாட்களிலும் அரசு விடுமுறை நாட்களிலும் கிடைக்குமா?`,
-    answer: `ஆம். உங்கள் வசதிக்காக வார இறுதி நாட்கள் மற்றும் அரசு விடுமுறை நாட்களிலும் சேவைகளை வழங்குகிறோம்.`,
-  },
-  {
-    question: `${companyName} நிறுவனம் வீடுகளுக்கும் வணிக நிறுவனங்களுக்கும் சேவைகளை வழங்குகிறதா?`,
-    answer: `ஆம். ${companyName} நிறுவனம் தனியார் வீடுகள் மற்றும் வணிக நிறுவனங்கள் ஆகிய இரண்டிற்கும் தேவைக்கேற்ற சேவைத் திட்டங்களை வழங்குகிறது.`,
-  },
-];
+  const faqs =
+    settings.faqs
+      ?.filter((faq) => faq.active)
+      ?.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)) || [];
   return (
     <>
       {/* ================= HEADER ================= */}
@@ -251,11 +215,11 @@ const faqs = [
               </div>
 
               <Button
-  className="portal-btn-primary"
-  onClick={() => setShowLogin(true)}
->
-  {cta.buttonText || "Raise Service Request"}
-</Button>
+                className="portal-btn-primary"
+                onClick={() => setShowLogin(true)}
+              >
+                {cta.buttonText || "Raise Service Request"}
+              </Button>
             </Col>
 
             <Col lg={6}>
@@ -272,103 +236,71 @@ const faqs = [
       </section>
 
       {/* ================= QUICK HELP ================= */}
-{cta.enabled && (
-  <section className="py-4">
-    <Container>
-      <Card
-        className="border-0 shadow-lg"
-        style={{
-          borderLeft: `6px solid ${primaryColor}`,
-          borderRadius: "16px",
-          backgroundColor: cta.backgroundColor || "#fff",
-        }}
-      >
-        <Card.Body className="p-4">
-          <Row className="align-items-center">
-            {/* English */}
-            <Col lg={cta.showTamil ? 6 : 12} className="mb-4 mb-lg-0">
-              <div className="d-flex align-items-center mb-3">
-                <CTAIcon
-    size={32}
-    style={{ color: primaryColor }}
-    className="me-3"
-/>
+      {cta.enabled && (
+        <section className="py-4">
+          <Container>
+            <Card
+              className="border-0 shadow-lg"
+              style={{
+                borderLeft: `6px solid ${primaryColor}`,
+                borderRadius: "16px",
+                backgroundColor: cta.backgroundColor || "#fff",
+              }}
+            >
+              <Card.Body className="p-4">
+                <Row className="align-items-center">
+                  {/* English */}
+                  <Col lg={12} className="mb-4 mb-lg-0">
+                    <div className="d-flex align-items-center mb-3">
+                      <CTAIcon
+                        size={32}
+                        style={{ color: primaryColor }}
+                        className="me-3"
+                      />
 
-                <h4
-                  className="fw-bold mb-0"
-                  style={{ color: primaryColor }}
-                >
-                  {cta.title}
-                </h4>
-              </div>
+                      <h4
+                        className="fw-bold mb-0"
+                        style={{ color: primaryColor }}
+                      >
+                        {cta.title}
+                      </h4>
+                    </div>
 
-              <p
-                className="fs-5"
-                style={{
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {cta.description}
-              </p>
+                    <p
+                      className="fs-5"
+                      style={{
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      {cta.description}
+                    </p>
 
-              <div className="d-flex flex-wrap gap-2 mt-4">
-                {settings.contactPhone && (
-                  <Badge bg="success" className="p-2 fs-6">
-                    <FaPhone className="me-2" />
-                    Call
-                  </Badge>
-                )}
+                    <div className="d-flex flex-wrap gap-2 mt-4">
+                      {settings.contactPhone && (
+                        <Badge bg="success" className="p-2 fs-6">
+                          <FaPhone className="me-2" />
+                          Call
+                        </Badge>
+                      )}
 
-                {settings.enableWhatsappButton &&
-                  settings.whatsappPhone && (
-                    <Badge bg="success" className="p-2 fs-6">
-                      WhatsApp
-                    </Badge>
-                  )}
+                      {settings.enableWhatsappButton &&
+                        settings.whatsappPhone && (
+                          <Badge bg="success" className="p-2 fs-6">
+                            WhatsApp
+                          </Badge>
+                        )}
 
-                <Badge bg="primary" className="p-2 fs-6">
-                  {cta.buttonText}
-                </Badge>
-              </div>
-            </Col>
-
-            {/* Tamil */}
-            {cta.showTamil && (
-              <Col lg={6}>
-                <div className="d-flex align-items-center mb-3">
-                  <FaCheckCircle
-                    size={30}
-                    className="text-success me-3"
-                  />
-
-                  <h4 className="fw-bold text-success mb-0">
-                    {cta.titleTamil}
-                  </h4>
-                </div>
-
-                <p
-                  className="fs-5"
-                  style={{
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {cta.descriptionTamil}
-                </p>
-
-                <Button
-                  className="portal-btn-primary mt-3"
-                  onClick={() => setShowLogin(true)}
-                >
-                  {cta.buttonTextTamil || cta.buttonText}
-                </Button>
-              </Col>
-            )}
-          </Row>
-        </Card.Body>
-      </Card>
-    </Container>
-  </section>
-)}
+                      <Badge bg="primary" className="p-2 fs-6">
+                        {cta.buttonText}
+                      </Badge>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Container>
+        </section>
+      )}
 
       {/* ================= SERVICES ================= */}
       {services.length > 0 && (
@@ -484,33 +416,36 @@ const faqs = [
       )}
 
       {/* ================= FAQ ================= */}
-<section className="py-5 bg-light">
-  <Container>
-    <div className="text-center mb-5">
-      <h2 className="fw-bold">Frequently Asked Questions</h2>
-      <p className="text-muted fs-5">
-        Find quick answers to your most common questions
-      </p>
-    </div>
+      {faqs.length > 0 && (
+        <section className="py-5 bg-light">
+          <Container>
+            <div className="text-center mb-5">
+              <h2 className="fw-bold">Frequently Asked Questions</h2>
+              <p className="text-muted fs-5">
+                Find quick answers to your most common questions
+              </p>
+            </div>
 
-    <Accordion flush>
-      {faqs.map((faq, index) => (
-        <Accordion.Item eventKey={String(index)} key={index}>
-          <Accordion.Header>{faq.question}</Accordion.Header>
-          <Accordion.Body
-            style={{
-              whiteSpace: "pre-line",
-              fontSize: "1rem",
-              lineHeight: "1.7",
-            }}
-          >
-            {faq.answer}
-          </Accordion.Body>
-        </Accordion.Item>
-      ))}
-    </Accordion>
-  </Container>
-</section>
+            <Accordion flush>
+              {faqs.map((faq, index) => (
+                <Accordion.Item key={faq._id || index} eventKey={String(index)}>
+                  <Accordion.Header>{faq.question}</Accordion.Header>
+
+                  <Accordion.Body
+                    style={{
+                      whiteSpace: "pre-line",
+                      fontSize: "1rem",
+                      lineHeight: "1.7",
+                    }}
+                  >
+                    {faq.answer}
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </Container>
+        </section>
+      )}
 
       {/* ================= CTA ================= */}
       <section
@@ -520,14 +455,11 @@ const faqs = [
         <Container>
           <h2>{cta.title}</h2>
 
-<p>{settings.serviceRequestInstructions}</p>
+          <p>{settings.serviceRequestInstructions}</p>
 
-<Button
-  variant="light"
-  onClick={() => setShowLogin(true)}
->
-  {cta.buttonText || "Customer Login"}
-</Button>
+          <Button variant="light" onClick={() => setShowLogin(true)}>
+            {cta.buttonText || "Customer Login"}
+          </Button>
         </Container>
       </section>
 

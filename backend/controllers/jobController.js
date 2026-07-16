@@ -729,7 +729,7 @@ const updateJobStatus = asyncHandler(async (req, res) => {
     res.status(403);
 
     throw new Error(
-      'You are not authorized to update job status'
+      "You are not authorized to update job status"
     );
   }
 
@@ -746,23 +746,19 @@ const updateJobStatus = asyncHandler(async (req, res) => {
    * =========================================================
    */
 
-  if (req.user.role === 'technician') {
-    const technician =
-      await Technician.findOne({
-        user: req.user._id,
-        company: req.user.company,
-      });
+  if (req.user.role === "technician") {
+    const technician = await Technician.findOne({
+      user: req.user._id,
+      company: req.user.company,
+    });
 
     if (!technician) {
       res.status(403);
 
-      throw new Error(
-        'Technician not found'
-      );
+      throw new Error("Technician not found");
     }
 
-    query.technician =
-      technician._id;
+    query.technician = technician._id;
   }
 
   /**
@@ -776,7 +772,7 @@ const updateJobStatus = asyncHandler(async (req, res) => {
   if (!job) {
     res.status(404);
 
-    throw new Error('Job not found');
+    throw new Error("Job not found");
   }
 
   const oldStatus = job.status;
@@ -789,8 +785,7 @@ const updateJobStatus = asyncHandler(async (req, res) => {
 
   job.status = status;
 
-  const updated =
-    await job.save();
+  const updated = await job.save();
 
   /**
    * =========================================================
@@ -799,28 +794,74 @@ const updateJobStatus = asyncHandler(async (req, res) => {
    */
 
   if (job.serviceRequest) {
-    await ServiceRequest.findByIdAndUpdate(
-      job.serviceRequest,
-      {
-        status,
-      }
-    );
+    await ServiceRequest.findByIdAndUpdate(job.serviceRequest, {
+      status,
+    });
   }
 
   /**
    * =========================================================
-   * ACTIVITY LOGS
+   * ACTIVITY LOG
    * =========================================================
    */
 
   await logActivity({
     company: req.user.company,
-    entityType: 'Job',
+    entityType: "Job",
     entityId: job._id,
-    action:
-      'UPDATE_JOB_STATUS',
+    action: "UPDATE_JOB_STATUS",
     message: `Status changed from ${oldStatus} to ${status}`,
   });
+
+  /**
+   * =========================================================
+   * NOTIFICATIONS
+   * Only when updated by a technician
+   * =========================================================
+   */
+
+  if (req.user.role === "technician") {
+    // Notify managers & dispatchers
+    const users = await User.find({
+      company: req.user.company,
+      role: {
+        $in: ["manager", "dispatcher"],
+      },
+    }).select("_id");
+
+    const notifications = users.map((user) =>
+      createNotification({
+        company: req.user.company,
+        user: user._id,
+        title: "Job Status Updated",
+        message: `Job ${job._id} status changed from ${oldStatus} to ${status}.`,
+        type: "job_status",
+        referenceId: job._id,
+      })
+    );
+
+    /**
+     * Customer notification
+     * Only if portal account exists
+     */
+    const customer = await Customer.findById(job.customer)
+      .select("+password");
+
+    if (customer?.password) {
+      notifications.push(
+        createNotification({
+          company: req.user.company,
+          customer: customer._id,
+          title: "Job Status Updated",
+          message: `Your service request is now ${status}.`,
+          type: "job_status",
+          referenceId: job._id,
+        })
+      );
+    }
+
+    await Promise.all(notifications);
+  }
 
   res.json(updated);
 });
