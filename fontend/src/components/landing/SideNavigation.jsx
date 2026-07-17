@@ -1,53 +1,21 @@
+import { useState } from "react";
 import "../../css/SideNavigation.css";
+
 const menuItems = [
-  {
-    id: "hero",
-    title: "Home",
-    icon: "🏠",
-  },
-  {
-    id: "story",
-    title: "Discover",
-    icon: "🔍",
-  },
-  {
-    id: "whyus",
-    title: "Why Us",
-    icon: "⭐",
-  },
-  {
-    id: "services",
-    title: "Services",
-    icon: "🛠",
-  },
-  {
-    id: "workflow",
-    title: "How It Works",
-    icon: "📖",
-  },
-  {
-    id: "features",
-    title: "HVAC SaaS",
-    icon: "⚙️",
-  },
-  {
-    id: "dispatch",
-    title: "Dispatch",
-    icon: "🚀",
-  },
-  {
-    id: "reports",
-    title: "Reports",
-    icon: "📈",
-  },
-  {
-    id: "contact",
-    title: "Contact",
-    icon: "📞",
-  },
+  { id: "hero", title: "Home", icon: "🏠" },
+  { id: "story", title: "Discover", icon: "🔍" },
+  { id: "whyus", title: "Why Us", icon: "⭐" },
+  { id: "services", title: "Services", icon: "🛠" },
+  { id: "workflow", title: "How It Works", icon: "📖" },
+  { id: "features", title: "HVAC SaaS", icon: "⚙️" },
+  { id: "dispatch", title: "Dispatch", icon: "🚀" },
+  { id: "reports", title: "Reports", icon: "📈" },
+  { id: "contact", title: "Contact", icon: "📞" },
 ];
 
 const SideNavigation = ({ onLogin }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
 
@@ -57,40 +25,76 @@ const SideNavigation = ({ onLogin }) => {
         block: "start",
       });
     }
+
+    // Close drawer after navigation
+    setMenuOpen(false);
   };
 
   return (
-    <div className="landing-sidebar">
+    <>
+      {/* Mobile Header */}
+      <header className="mobile-header">
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setMenuOpen(true)}
+        >
+          ☰
+        </button>
 
-      <div className="sidebar-logo">
-        HVAC
-        <span>Connect</span>
-      </div>
+        <div className="mobile-logo">
+          HVAC<span>Connect</span>
+        </div>
 
-      <div className="sidebar-menu">
+        <button
+          className="mobile-login-btn"
+          onClick={onLogin}
+        >
+          Login
+        </button>
+      </header>
 
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            className="sidebar-item"
-            onClick={() => scrollToSection(item.id)}
-          >
-            <span>{item.icon}</span>
+      {/* Overlay */}
+      {menuOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
 
-            {item.title}
-          </button>
-        ))}
+      {/* Sidebar */}
+      <aside className={`landing-sidebar ${menuOpen ? "open" : ""}`}>
+        <button
+          className="close-sidebar"
+          onClick={() => setMenuOpen(false)}
+        >
+          ✕
+        </button>
 
-      </div>
+        <div className="sidebar-logo">
+          HVAC<span>Connect</span>
+        </div>
 
-      <button
-        className="staff-login-btn"
-        onClick={onLogin}
-      >
-        Staff Login
-      </button>
+        <div className="sidebar-menu">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              className="sidebar-item"
+              onClick={() => scrollToSection(item.id)}
+            >
+              <span>{item.icon}</span>
+              {item.title}
+            </button>
+          ))}
+        </div>
 
-    </div>
+        <button
+          className="staff-login-btn"
+          onClick={onLogin}
+        >
+          Staff Login
+        </button>
+      </aside>
+    </>
   );
 };
 
